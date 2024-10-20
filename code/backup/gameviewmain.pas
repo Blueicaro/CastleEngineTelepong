@@ -10,7 +10,7 @@ interface
 uses Classes,
   CastleVectors, CastleComponentSerialize,
   CastleUIControls, CastleControls, CastleKeysMouse, CastleScene,
-  CastleTransform, CastleLog, CastleSoundEngine;
+  CastleTransform, CastleLog, CastleSoundEngine,castlewindow;
 
 type
   { Main view, where most of the application logic takes place. }
@@ -42,6 +42,7 @@ type
     LadoInferior: TCastleBox;
     MarcadorPlayer1: TCastleLabel;
     MarcadorPlayer2: TCastleLabel;
+    Gol: TCastleSound;
     Rebote: TCastleSound;
   public
     constructor Create(AOwner: TComponent); override;
@@ -65,6 +66,7 @@ begin
   //EL jugador 1  (izquierdo) consigue un punto
   PuntosPlayer1 := PuntosPlayer1 + 1;
   MarcadorPlayer1.Caption := IntToStr(PuntosPlayer1);
+  SoundEngine.Play(Gol);
 end;
 
 procedure TViewMain.ColisionLadoIzquierdo(
@@ -73,6 +75,7 @@ begin
   //El jugador 2 (derecha) consigue un punto
   PuntosPlayer2 := PuntosPlayer2 + 1;
   MarcadorPlayer2.Caption := IntToStr(PuntosPlayer2);
+  SoundEngine.Play(Gol);
 end;
 
 procedure TViewMain.ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
@@ -250,7 +253,10 @@ begin
     end;
     Exit(True);
   end;
-
+  if Event.IsKey(keyEscape) Then
+  begin
+    Application.Terminate;
+  end;
 end;
 
 end.

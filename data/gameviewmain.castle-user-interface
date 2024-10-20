@@ -305,16 +305,12 @@
             "RenderOptions" : {
               "$$ClassName" : "TCastleScene.TSceneRenderOptions"
             },
+            "Visible" : false,
             "$Behaviors" : [
               {
                 "$$ClassName" : "TCastleRigidBody",
                 "Gravity" : false,
                 "LinearVelocityDamp" : 0.0000000000000000E+000,
-                "LinearVelocityPersistent" : {
-                  "$$ClassName" : "TCastleVector3Persistent",
-                  "X" : 5.0000000000000000E+002,
-                  "Y" : 5.0000000000000000E+002
-                },
                 "LockRotation" : [
                   0,
                   1,

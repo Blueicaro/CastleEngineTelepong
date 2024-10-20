@@ -23,6 +23,7 @@ type
     VelocidadPlayer2: integer;
     PuntosPlayer1: integer;
     PuntosPlayer2: integer;
+    procedure     EmpezarJuego;
     procedure ColisionLadoDerecho(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionLadoIzquierdo(
       const CollisionDetails: TPhysicsCollisionDetails);
@@ -42,6 +43,7 @@ type
     LadoInferior: TCastleBox;
     MarcadorPlayer1: TCastleLabel;
     MarcadorPlayer2: TCastleLabel;
+    Pelota : TCastleSphere;
     Gol: TCastleSound;
     Rebote: TCastleSound;
   public
@@ -59,6 +61,14 @@ implementation
 uses SysUtils;
 
   { TViewMain ----------------------------------------------------------------- }
+
+procedure TViewMain.EmpezarJuego;
+begin
+  //Determinar hacia que lado sacamos
+  //Determinar si es hacia arriba o hacia abajo
+  //Mostrar Pelota
+  //Aplicar Velocidad.
+end;
 
 procedure TViewMain.ColisionLadoDerecho(
   const CollisionDetails: TPhysicsCollisionDetails);
@@ -256,7 +266,14 @@ begin
   if Event.IsKey(keyEscape) Then
   begin
     Application.Terminate;
+    Exit(true);
   end;
+
+  if (Pelota.Visible = False) and (Event.IsKey(keySpace)) then
+  begin
+    EmpezarJuego;
+  end;
+
 end;
 
 end.

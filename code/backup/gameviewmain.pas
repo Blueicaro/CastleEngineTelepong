@@ -10,7 +10,7 @@ interface
 uses Classes,
   CastleVectors, CastleComponentSerialize,
   CastleUIControls, CastleControls, CastleKeysMouse, CastleScene,
-  CastleTransform, CastleLog, CastleSoundEngine,castlewindow;
+  CastleTransform, CastleLog, CastleSoundEngine, castlewindow;
 
 type
   { Main view, where most of the application logic takes place. }
@@ -21,11 +21,15 @@ type
   private
     VelocidadPlayer1: integer;
     VelocidadPlayer2: integer;
+    MaximaPuntuacion: integer;
     PuntosPlayer1: integer;
     PuntosPlayer2: integer;
+    procedure EmpezarJuego;
+    procedure Saque(const Player: string = '');
+    procedure FinJuego;
     procedure ColisionLadoDerecho(const CollisionDetails: TPhysicsCollisionDetails);
-    procedure ColisionLadoIzquierdo(
-      const CollisionDetails: TPhysicsCollisionDetails);
+    procedure ColisionLadoIzquierdo(const CollisionDetails:
+      TPhysicsCollisionDetails);
     procedure ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer1(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer2(const CollisionDetails: TPhysicsCollisionDetails);
@@ -42,6 +46,7 @@ type
     LadoInferior: TCastleBox;
     MarcadorPlayer1: TCastleLabel;
     MarcadorPlayer2: TCastleLabel;
+    Pelota: TCastleSphere;
     Gol: TCastleSound;
     Rebote: TCastleSound;
   public
@@ -56,17 +61,100 @@ var
 
 implementation
 
-uses SysUtils;
+uses SysUtils, CastleUtils,CastleTimeUtils;
 
   { TViewMain ----------------------------------------------------------------- }
+
+procedure TViewMain.EmpezarJuego;
+begin
+  //Iniciar Valores
+  VelocidadPlayer1 := 0;
+  VelocidadPlayer2 := 0;
+  PuntosPlayer1 := 0;
+  PuntosPlayer2 := 0;
+  MaximaPuntuacion := 12;
+  Player1.Translation := Vector3(-690, 0, 0);
+  Player2.Translation := Vector3(690, 0, 0);
+  MarcadorPlayer1.Caption := '0';
+  MarcadorPlayer2.Caption := '0';
+  Saque;
+end;
+
+procedure TViewMain.Saque(const Player: string);
+var
+  Body: TCastleRigidBody;
+  Vector: TVector3;
+  Direccion: int64;
+  TimeStart: TTimerResult;
+begin
+  //Saque
+  //Dirección por defecto, saca el jugador 1
+  Vector.X := 500;
+  Vector.Y := 500;
+  Randomize;
+  //Determinar si es hacia arriba o hacia abajo
+  Direccion := random(100);
+  WritelnLog(Direccion.ToString);
+  if Direccion mod 2 = 0 then
+  begin
+    Vector.Y := -500;
+  end;
+  //Si tiene que sacar el jugador 2 cambiamos la dirección
+  if Player = Player2.Name then
+  begin
+    Vector.X := -Vector.X;
+  end
+  //sino se especifica ningún jugador se elige al azar
+  else if Player = '' then
+  begin
+    //Determinar hacia que lado sacamos
+    Randomize;
+    direccion := random(100);
+    WritelnLog(Direccion.ToString);
+    if Direccion mod 2 = 0 then
+    begin
+      Vector.X := -500;
+    end;
+  end;
+
+
+  //Situar pelota en el centro
+  Pelota.Translation := Vector3(0, 0, 0);
+  //Mostrar Pelota
+  Pelota.Visible := True;
+  TimeStart := Timer;
+  //Aplicar Velocidad.
+  Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+  Body.LinearVelocity := Vector;
+  WritelnLog(Vector.ToString);
+end;
+
+procedure TViewMain.FinJuego;
+var
+  Body: TCastleRigidBody;
+begin
+  Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
+  Body.LinearVelocity := Vector3(0, 0, 0);
+  Pelota.Visible := False;
+end;
 
 procedure TViewMain.ColisionLadoDerecho(
   const CollisionDetails: TPhysicsCollisionDetails);
 begin
   //EL jugador 1  (izquierdo) consigue un punto
   PuntosPlayer1 := PuntosPlayer1 + 1;
+
   MarcadorPlayer1.Caption := IntToStr(PuntosPlayer1);
   SoundEngine.Play(Gol);
+  if PuntosPlayer1 >= MaximaPuntuacion then
+  begin
+    FinJuego;
+  end
+  else
+  begin
+    Saque(Player1.Name);
+  end;
+
 end;
 
 procedure TViewMain.ColisionLadoIzquierdo(
@@ -76,6 +164,14 @@ begin
   PuntosPlayer2 := PuntosPlayer2 + 1;
   MarcadorPlayer2.Caption := IntToStr(PuntosPlayer2);
   SoundEngine.Play(Gol);
+  if PuntosPlayer2 >= MaximaPuntuacion then
+  begin
+    FinJuego;
+  end
+  else
+  begin
+    Saque(Player2.Name);
+  end;
 end;
 
 procedure TViewMain.ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
@@ -95,6 +191,7 @@ begin
   SoundEngine.Play(PlayerHit);
 end;
 
+
 constructor TViewMain.Create(AOwner: TComponent);
 begin
   inherited;
@@ -106,11 +203,6 @@ var
   Body: TCastleRigidBody;
 begin
   inherited;
-  VelocidadPlayer1 := 0;
-  VelocidadPlayer2 := 0;
-  PuntosPlayer1 := 0;
-  PuntosPlayer2 := 0;
-
 
   Body := Player1.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   {$IFDEF FPC}
@@ -192,8 +284,6 @@ begin
     Player2.Translation := Vector3(690, -300, 0);
   end;
 
-
-
   Player1.Translation := Player1.Translation +
     Vector3(0, VelocidadPlayer1 * SecondsPassed, 0);
   Player2.Translation := Player2.Translation +
@@ -204,59 +294,68 @@ function TViewMain.Press(const Event: TInputPressRelease): boolean;
 begin
   Result := inherited;
   if Result then Exit; // allow the ancestor to handle keys
-
-  if Event.IsKey(keyQ) then
+  if Pelota.Visible = True then
   begin
-    if VelocidadPlayer1 < 0 then
+    if Event.IsKey(keyQ) then
     begin
-      VelocidadPlayer1 := 0;
-    end
-    else
-    begin
-      VelocidadPlayer1 := 300;
+      if VelocidadPlayer1 < 0 then
+      begin
+        VelocidadPlayer1 := 0;
+      end
+      else
+      begin
+        VelocidadPlayer1 := 300;
+      end;
+      Exit(True);
     end;
-    Exit(True);
-  end;
-  if Event.IsKey(keyA) then
-  begin
-    if VelocidadPlayer1 > 0 then
+    if Event.IsKey(keyA) then
     begin
-      VelocidadPlayer1 := 0;
-    end
-    else
+      if VelocidadPlayer1 > 0 then
+      begin
+        VelocidadPlayer1 := 0;
+      end
+      else
+      begin
+        VelocidadPlayer1 := -300;
+      end;
+    end;
+    //Teclas jugadaor 2
+    if Event.IsKey(keyArrowUp) then
     begin
-      VelocidadPlayer1 := -300;
+      if VelocidadPlayer2 < 0 then
+      begin
+        VelocidadPlayer2 := 0;
+      end
+      else
+      begin
+        VelocidadPlayer2 := 300;
+      end;
+      Exit(True);
+    end;
+    if Event.IsKey(keyArrowDown) then
+    begin
+      if VelocidadPlayer2 > 0 then
+      begin
+        VelocidadPlayer2 := 0;
+      end
+      else
+      begin
+        VelocidadPlayer2 := -300;
+      end;
+      Exit(True);
     end;
   end;
-  //Teclas jugadaor 2
-  if Event.IsKey(keyArrowUp) then
-  begin
-    if VelocidadPlayer2 < 0 then
-    begin
-      VelocidadPlayer2 := 0;
-    end
-    else
-    begin
-      VelocidadPlayer2 := 300;
-    end;
-    Exit(True);
-  end;
-  if Event.IsKey(keyArrowDown) then
-  begin
-    if VelocidadPlayer2 > 0 then
-    begin
-      VelocidadPlayer2 := 0;
-    end
-    else
-    begin
-      VelocidadPlayer2 := -300;
-    end;
-    Exit(True);
-  end;
-  if Event.IsKey(keyEscape) Then
+  if Event.IsKey(keyEscape) then
   begin
     Application.Terminate;
+    Exit(True);
   end;
+
+  if (Pelota.Visible = False) and (Event.IsKey(keySpace)) then
+  begin
+    EmpezarJuego;
+  end;
+
 end;
 
 end.

@@ -25,11 +25,14 @@ type
     PuntosPlayer1: integer;
     PuntosPlayer2: integer;
     procedure EmpezarJuego;
+    procedure JugadoresAlOrigen;
+    procedure MuestraTextoInicial;
+    procedure BorraTextoInicial;
     procedure Saque(const Player: string = '');
     procedure FinJuego;
     procedure ColisionLadoDerecho(const CollisionDetails: TPhysicsCollisionDetails);
-    procedure ColisionLadoIzquierdo(const CollisionDetails:
-      TPhysicsCollisionDetails);
+    procedure ColisionLadoIzquierdo(
+      const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer1(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer2(const CollisionDetails: TPhysicsCollisionDetails);
@@ -37,6 +40,11 @@ type
     { Components designed using CGE editor.
       These fields will be automatically initialized at Start. }
     LabelFps: TCastleLabel;
+    MarcadorPlayer1: TCastleLabel;
+    MarcadorPlayer2: TCastleLabel;
+    TeclasPlayer1: TCastleLabel;
+    TeclasPlayer2: TCastleLabel;
+    SpaceBar: TCastleLabel;
     Player1: TCastleBox;
     Player2: TCastleBox;
     PlayerHit: TCastleSound;
@@ -44,8 +52,6 @@ type
     LadoIzquierdo: TCastleBox;
     LadoSuperior: TCastleBox;
     LadoInferior: TCastleBox;
-    MarcadorPlayer1: TCastleLabel;
-    MarcadorPlayer2: TCastleLabel;
     Pelota: TCastleSphere;
     Gol: TCastleSound;
     Rebote: TCastleSound;
@@ -61,7 +67,7 @@ var
 
 implementation
 
-uses SysUtils, CastleUtils,CastleTimeUtils;
+uses SysUtils, CastleUtils, CastleTimeUtils;
 
   { TViewMain ----------------------------------------------------------------- }
 
@@ -77,7 +83,28 @@ begin
   Player2.Translation := Vector3(690, 0, 0);
   MarcadorPlayer1.Caption := '0';
   MarcadorPlayer2.Caption := '0';
+  BorraTextoInicial;
   Saque;
+end;
+
+procedure TViewMain.JugadoresAlOrigen;
+begin
+  Player1.Translation := Vector3(-690, 0, 0);
+  Player2.Translation := Vector3(690, 0, 0);
+end;
+
+procedure TViewMain.MuestraTextoInicial;
+begin
+  TeclasPlayer1.Exists := True;
+  TeclasPlayer2.Exists := True;
+  SpaceBar.Exists := True;
+end;
+
+procedure TViewMain.BorraTextoInicial;
+begin
+  TeclasPlayer1.Exists := False;
+  TeclasPlayer2.Exists := False;
+  SpaceBar.Exists := False;
 end;
 
 procedure TViewMain.Saque(const Player: string);
@@ -117,12 +144,15 @@ begin
     end;
   end;
 
+  JugadoresAlOrigen;
 
   //Situar pelota en el centro
   Pelota.Translation := Vector3(0, 0, 0);
   //Mostrar Pelota
   Pelota.Visible := True;
   TimeStart := Timer;
+
+
   //Aplicar Velocidad.
   Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   Body.LinearVelocity := Vector;
@@ -136,6 +166,7 @@ begin
   Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   Body.LinearVelocity := Vector3(0, 0, 0);
   Pelota.Visible := False;
+  MuestraTextoInicial;
 end;
 
 procedure TViewMain.ColisionLadoDerecho(

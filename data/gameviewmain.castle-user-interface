@@ -333,7 +333,8 @@
           "$$ClassName" : "TCastleFont",
           "DistanceField" : true,
           "Name" : "Font1",
-          "OptimalSize" : 300
+          "OptimalSize" : 300,
+          "Url" : "castle-data:/DejaVuSans.ttf"
         }
       ],
       "$Children" : [
@@ -391,6 +392,7 @@
             "Green" : 6.1176472902297974E-001,
             "Red" : 9.8823529481887817E-001
           },
+          "CustomFont" : "Font1",
           "FontSize" : 2.0000000000000000E+001,
           "HorizontalAnchorParent" : "hpRight",
           "HorizontalAnchorSelf" : "hpRight",
@@ -415,7 +417,9 @@
             "Green" : 1.0000000000000000E+000,
             "Red" : 1.0000000000000000E+000
           },
+          "CustomFont" : "Font1",
           "FontScale" : 2.0000000000000000E+000,
+          "FontSize" : 1.0000000000000000E+001,
           "Name" : "TeclasPlayer1",
           "Text" : [
             "Player 1 use:",
@@ -436,7 +440,9 @@
             "Green" : 1.0000000000000000E+000,
             "Red" : 1.0000000000000000E+000
           },
+          "CustomFont" : "Font1",
           "FontScale" : 2.0000000000000000E+000,
+          "FontSize" : 1.0000000000000000E+001,
           "Name" : "TeclasPlayer2",
           "Text" : [
             "Player 2 use:",
@@ -444,7 +450,7 @@
           ],
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
-            "X" : 8.4000000000000000E+002,
+            "X" : 1.0700000000000000E+003,
             "Y" : 6.5000000000000000E+002
           }
         },
@@ -457,14 +463,16 @@
             "Green" : 1.0000000000000000E+000,
             "Red" : 1.0000000000000000E+000
           },
+          "CustomFont" : "Font1",
           "FontScale" : 3.0000000000000000E+000,
+          "FontSize" : 1.0000000000000000E+001,
           "Name" : "SpaceBar",
           "Text" : [
             "Press space bar to start"
           ],
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
-            "X" : 4.7000000000000000E+002,
+            "X" : 6.4000000000000000E+002,
             "Y" : 4.0000000000000000E+002
           }
         }
@@ -474,7 +482,7 @@
         "Name" : "",
         "Orthographic" : {
           "$$ClassName" : "TCastleOrthographic",
-          "Height" : 1.7315001220703125E+003,
+          "Height" : 1.7901895751953125E+003,
           "OriginPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
             "X" : 5.0000000000000000E-001,

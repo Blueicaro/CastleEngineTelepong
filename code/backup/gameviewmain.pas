@@ -112,7 +112,7 @@ var
   Body: TCastleRigidBody;
   Vector: TVector3;
   Direccion: int64;
-  TimeStart: TTimerResult;
+
 begin
   //Saque
   //Dirección por defecto, saca el jugador 1
@@ -127,7 +127,7 @@ begin
     Vector.Y := -500;
   end;
   //Si tiene que sacar el jugador 2 cambiamos la dirección
-  if Player = Player2.Name then
+  if Player = Player1.Name then
   begin
     Vector.X := -Vector.X;
   end

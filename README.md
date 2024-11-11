@@ -2,6 +2,21 @@
 
 Using [Castle Game Engine](https://castle-engine.io/).
 
+## Instruccions
+
+Player 1 keys:
+
+* Up: Q
+* Down: A
+
+Player 2 Keys:
+
+*   Up: Arrow up
+*   Down: Arrow down
+
+Press space bar to star the game.
+
+
 ## Building
 
 Compile by:

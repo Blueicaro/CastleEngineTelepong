@@ -122,7 +122,6 @@ begin
   Pelota.Translation := Vector3(0, 0, 0);
   //Mostrar Pelota
   Pelota.Visible := True;
-  TimeStart := Timer;
   //Aplicar Velocidad.
   Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   Body.LinearVelocity := Vector;

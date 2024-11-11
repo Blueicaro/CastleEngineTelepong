@@ -85,7 +85,6 @@ var
   Body: TCastleRigidBody;
   Vector: TVector3;
   Direccion: int64;
-  TimeStart: TTimerResult;
 begin
   //Saque
   //Dirección por defecto, saca el jugador 1
@@ -122,10 +121,6 @@ begin
   Pelota.Translation := Vector3(0, 0, 0);
   //Mostrar Pelota
   Pelota.Visible := True;
-  TimeStart := Timer;
-  Repeat
-
-  until TimeStart.ElapsedTime > 1;
   //Aplicar Velocidad.
   Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   Body.LinearVelocity := Vector;

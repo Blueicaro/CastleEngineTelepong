@@ -31,8 +31,8 @@ type
     procedure Saque(const Player: string = '');
     procedure FinJuego;
     procedure ColisionLadoDerecho(const CollisionDetails: TPhysicsCollisionDetails);
-    procedure ColisionLadoIzquierdo(
-      const CollisionDetails: TPhysicsCollisionDetails);
+    procedure ColisionLadoIzquierdo(const CollisionDetails:
+      TPhysicsCollisionDetails);
     procedure ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer1(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer2(const CollisionDetails: TPhysicsCollisionDetails);
@@ -111,23 +111,23 @@ procedure TViewMain.Saque(const Player: string);
 var
   Body: TCastleRigidBody;
   Vector: TVector3;
-  Direccion: int64;
-<<<<<<< HEAD
-=======
-
->>>>>>> 4c067edc207013340933e9279da26e98d15525f7
+  Direccion, AnguloY, AnguloX: int64;
 begin
   //Saque
   //Dirección por defecto, saca el jugador 1
-  Vector.X := 500;
-  Vector.Y := 500;
   Randomize;
+
+  AnguloX := RandomIntRange(100, 500);
+  AnguloY := RandomIntRange(100, 500);
+  Vector.X := AnguloX;
+  Vector.Y := AnguloY;
+   WritelnLog(Vector.ToString);
   //Determinar si es hacia arriba o hacia abajo
   Direccion := random(100);
   WritelnLog(Direccion.ToString);
   if Direccion mod 2 = 0 then
   begin
-    Vector.Y := -500;
+    Vector.Y := -Vector.y;
   end;
   //Si tiene que sacar el jugador 2 cambiamos la dirección
   if Player = Player1.Name then
@@ -143,7 +143,7 @@ begin
     WritelnLog(Direccion.ToString);
     if Direccion mod 2 = 0 then
     begin
-      Vector.X := -500;
+      Vector.X := -Vector.X
     end;
   end;
 
@@ -153,10 +153,6 @@ begin
   Pelota.Translation := Vector3(0, 0, 0);
   //Mostrar Pelota
   Pelota.Visible := True;
-<<<<<<< HEAD
-=======
-
->>>>>>> 4c067edc207013340933e9279da26e98d15525f7
   //Aplicar Velocidad.
   Body := Pelota.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   Body.LinearVelocity := Vector;

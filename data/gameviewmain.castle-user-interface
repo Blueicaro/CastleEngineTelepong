@@ -306,6 +306,20 @@
                 "Restitution" : 1.0000000000000000E+000
               }
             ]
+          },
+          {
+            "$$ClassName" : "TCastleBox",
+            "Material" : "pmUnlit",
+            "Name" : "LineaCentral",
+            "RenderOptions" : {
+              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+            },
+            "SizePersistent" : {
+              "$$ClassName" : "TCastleVector3Persistent",
+              "X" : 1.0000000000000000E+001,
+              "Y" : 1.0000000000000000E+003,
+              "Z" : 0.0000000000000000E+000
+            }
           }
         ]
       },
@@ -466,15 +480,20 @@
           "CustomFont" : "Font1",
           "FontScale" : 3.0000000000000000E+000,
           "FontSize" : 1.0000000000000000E+001,
+          "FullSize" : true,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
           "Name" : "SpaceBar",
           "Text" : [
             "Press space bar to start"
           ],
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
-            "X" : 6.4000000000000000E+002,
-            "Y" : 4.0000000000000000E+002
-          }
+            "X" : 1.4749877929687500E+001,
+            "Y" : -2.3383410644531250E+002
+          },
+          "VerticalAnchorParent" : "vpMiddle",
+          "VerticalAnchorSelf" : "vpMiddle"
         }
       ],
       "InternalDesignCamera" : {

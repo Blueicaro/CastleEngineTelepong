@@ -234,7 +234,7 @@ var
   Body: TCastleRigidBody;
 begin
   inherited;
-
+  Application.MainWindow.FullScreen:=true;
   Body := Player1.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   {$IFDEF FPC}
   Body.OnCollisionEnter:=@ColisionPlayer1;

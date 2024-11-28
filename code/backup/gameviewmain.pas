@@ -117,11 +117,11 @@ begin
   //Dirección por defecto, saca el jugador 1
   Randomize;
 
-  AnguloX := RandomIntRange(250, 500);
-  AnguloY := RandomIntRange(250, 500);
+  AnguloX := RandomIntRange(100, 500);
+  AnguloY := RandomIntRange(100, 500);
   Vector.X := AnguloX;
   Vector.Y := AnguloY;
-
+   WritelnLog(Vector.ToString);
   //Determinar si es hacia arriba o hacia abajo
   Direccion := random(100);
   WritelnLog(Direccion.ToString);

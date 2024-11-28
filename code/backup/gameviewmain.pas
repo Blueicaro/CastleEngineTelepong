@@ -121,7 +121,7 @@ begin
   AnguloY := RandomIntRange(100, 500);
   Vector.X := AnguloX;
   Vector.Y := AnguloY;
-   WritelnLog(Vector.ToString);
+  WritelnLog(Vector.ToString);
   //Determinar si es hacia arriba o hacia abajo
   Direccion := random(100);
   WritelnLog(Direccion.ToString);
@@ -143,7 +143,7 @@ begin
     WritelnLog(Direccion.ToString);
     if Direccion mod 2 = 0 then
     begin
-      Vector.X := -Vector.X
+      Vector.X := -Vector.X;
     end;
   end;
 
@@ -388,5 +388,6 @@ begin
   end;
 
 end;
+
 
 end.

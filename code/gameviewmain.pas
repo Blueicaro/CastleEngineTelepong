@@ -31,8 +31,8 @@ type
     procedure Saque(const Player: string = '');
     procedure FinJuego;
     procedure ColisionLadoDerecho(const CollisionDetails: TPhysicsCollisionDetails);
-    procedure ColisionLadoIzquierdo(const CollisionDetails:
-      TPhysicsCollisionDetails);
+    procedure ColisionLadoIzquierdo(
+      const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionParedes(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer1(const CollisionDetails: TPhysicsCollisionDetails);
     procedure ColisionPlayer2(const CollisionDetails: TPhysicsCollisionDetails);
@@ -121,7 +121,7 @@ begin
   AnguloY := RandomIntRange(100, 500);
   Vector.X := AnguloX;
   Vector.Y := AnguloY;
-   WritelnLog(Vector.ToString);
+  WritelnLog(Vector.ToString);
   //Determinar si es hacia arriba o hacia abajo
   Direccion := random(100);
   WritelnLog(Direccion.ToString);
@@ -143,7 +143,7 @@ begin
     WritelnLog(Direccion.ToString);
     if Direccion mod 2 = 0 then
     begin
-      Vector.X := -Vector.X
+      Vector.X := -Vector.X;
     end;
   end;
 
@@ -234,7 +234,13 @@ var
   Body: TCastleRigidBody;
 begin
   inherited;
-  Application.MainWindow.FullScreen:=true;
+
+
+{$IFDEF DEBUG}
+   LabelFps.Exists:=true;
+{$ELSE}
+    LabelFps.Exists:=False;
+{$ENDIF}
   Body := Player1.FindBehavior(TCastleRigidBody) as TCastleRigidBody;
   {$IFDEF FPC}
   Body.OnCollisionEnter:=@ColisionPlayer1;
@@ -388,5 +394,6 @@ begin
   end;
 
 end;
+
 
 end.

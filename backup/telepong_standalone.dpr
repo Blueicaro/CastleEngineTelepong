@@ -66,6 +66,6 @@ uses
 {$ifend}
 
 begin
-  //Application.MainWindow.FullScreen := True;
-    Application.MainWindow.OpenAndRun;
+  Application.MainWindow.FullScreen := True;
+  Application.MainWindow.OpenAndRun;
 end.

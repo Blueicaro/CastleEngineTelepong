@@ -1,4 +1,6 @@
-# Tele Pong
+# TelePong
+
+![alt text](screen.png)
 
 Using [Castle Game Engine](https://castle-engine.io/).
 
@@ -14,7 +16,9 @@ Player 2 Keys:
 *   Up: Arrow up
 *   Down: Arrow down
 
-Press space bar to star the game.
+Press Space bar to star the game.
+
+Press Escape key to exit from game.
 
 
 ## Building
